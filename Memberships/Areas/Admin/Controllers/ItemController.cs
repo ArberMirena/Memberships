@@ -13,7 +13,7 @@ using Memberships.Models;
 namespace Memberships.Areas.Admin.Controllers
 {
     public class ItemController : Controller
-    {
+     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Admin/Item
@@ -135,7 +135,9 @@ namespace Memberships.Areas.Admin.Controllers
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
+
         }
     }
 }
