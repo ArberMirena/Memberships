@@ -11,7 +11,6 @@ using Memberships.Entities;
 using Memberships.Models;
 using Memberships.Areas.Admin.Extensions;
 using Memberships.Areas.Admin.Models;
-using System.Data.Entity;
 
 namespace Memberships.Areas.Admin.Controllers
 {

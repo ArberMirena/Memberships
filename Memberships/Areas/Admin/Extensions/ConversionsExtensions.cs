@@ -34,7 +34,7 @@ namespace Memberships.Areas.Admin.Extensions
                    };
         }
 
-        public static async Task<IEnumerable<ProductItemModel>> Convert (this IQueryable<ProductItem> productItems, ApplicationDbContext db)
+        public static async Task<IEnumerable<ProductItemModel>> Convert(this IQueryable<ProductItem> productItems, ApplicationDbContext db)
         {
             if (productItems.Count().Equals(0)) return new List<ProductItemModel>();
 
@@ -45,11 +45,13 @@ namespace Memberships.Areas.Admin.Extensions
 
                               ProductId = pi.ProductId,
 
+                              ProductTitle = db.Products.FirstOrDefault(
+                                  p => p.Id.Equals(pi.ProductId)).Title,
+
                               ItemTitle = db.Items.FirstOrDefault(
                                   i=> i.Id.Equals(pi.ItemId)).Title,
 
-                              ProductTitle = db.Products.FirstOrDefault(
-                                  p => p.Id.Equals(pi.ProductId)).Title
+                              
 
 
                           }).ToListAsync();
@@ -88,10 +90,10 @@ namespace Memberships.Areas.Admin.Extensions
             {
                 ItemId = productItem.ItemId,
                 ProductId = productItem.ProductId,
-                Items = addListData ? await db.Items.ToListAsync() : null,
-                Products = addListData ? await db.Products.ToListAsync() : null,
+                Items =  addListData ? await db.Items.ToListAsync() : null,
+                Products = addListData ?  await db.Products.ToListAsync() : null,
                 ItemTitle = (await db.Items.FirstOrDefaultAsync(i => i.Id.Equals(productItem.ItemId))).Title,
-                ProductTitle = (await db.Products.FirstOrDefaultAsync(p => p.Id.Equals(productItem.ProductId))).Title
+                ProductTitle = (await db.Products.FirstOrDefaultAsync(p => p.Id.Equals(productItem.ProductId))).Title,
 
             };
 
@@ -100,16 +102,16 @@ namespace Memberships.Areas.Admin.Extensions
 
         public static async Task<bool> CanChange(this ProductItem productItem, ApplicationDbContext db)
         {
-            var oldPi = await db.ProductItems.CountAsync(
+            var oldPI = await db.ProductItems.CountAsync(
                 pi => pi.ProductId.Equals(productItem.OldProductId) &&
                 pi.ItemId.Equals(productItem.OldItemId));
 
-            var newPi = await db.ProductItems.CountAsync(
+            var newPI = await db.ProductItems.CountAsync(
                 pi => pi.ProductId.Equals(productItem.ProductId) &&
                 pi.ItemId.Equals(productItem.ItemId));
 
             //oldPi.Equals(1) returns true if old value exists or viceversa 
-            return oldPi.Equals(1) && newPi.Equals(0);
+            return oldPI.Equals(1) && newPI.Equals(0);
         }
 
         public static async Task Change(this ProductItem productItem, ApplicationDbContext db)

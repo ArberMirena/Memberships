@@ -11,7 +11,6 @@ namespace Memberships.Entities
     public class Product
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
         public int Id { get; set; }
         [MaxLength(255)]
         [Required]

@@ -1,6 +1,7 @@
 ﻿@model Memberships.Areas.Admin.Models.ProductItemModel
 @using Memberships.Extensions
 
+
 @{
     ViewBag.Title = "Edit";
 }
@@ -14,10 +15,9 @@
 <div class="form-horizontal">
     <h4>ProductItem</h4>
     <hr />
-
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.Hidden("OldProductId", Model.ProductId)
-    @Html.Hidden("OldProductId", Model.ItemId)
+    @Html.Hidden("OldItemId", Model.ItemId)
 
     <div class="form-group">
         @Html.LabelFor(model => model.Products, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -41,7 +41,7 @@
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-success" />
+            <input type="submit" value="Save" class="btn btn-default" />
         </div>
     </div>
 </div>

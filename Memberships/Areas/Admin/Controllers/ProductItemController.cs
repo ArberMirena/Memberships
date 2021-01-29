@@ -36,7 +36,9 @@ namespace Memberships.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            return View(await productItem.Convert(db));
+
+
+            return View(productItem.Convert(db));
         }
 
         // GET: Admin/ProductItem/Create
@@ -56,7 +58,7 @@ namespace Memberships.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ProductId,ItemId")] ProductItem productItem)
+        public async Task<ActionResult> Create([Bind(Include = "ProductId, ItemId")] ProductItem productItem)
         {
             if (ModelState.IsValid)
             {
@@ -80,8 +82,7 @@ namespace Memberships.Areas.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            return View(await productItem.Convert(db));
-
+            return View( await productItem.Convert(db));
         }
 
         // POST: Admin/ProductItem/Edit/5
@@ -89,38 +90,42 @@ namespace Memberships.Areas.Admin.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ProductId,ItemId,OldProdcutId,OldItemId")] ProductItem productItem)
+        public async Task<ActionResult> Edit([Bind(Include = "ProductId,ItemId,OldProductId,OldItemId")] ProductItem productItem)
         {
             if (ModelState.IsValid)
             {
                 var canChange = await productItem.CanChange(db);
-                if (canChange) await productItem.Change(db);
+                if (canChange)
+                    await productItem.Change(db);
+
                 return RedirectToAction("Index");
             }
             return View(productItem);
         }
 
         // GET: Admin/ProductItem/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(int? itemId, int? productId)
         {
-            if (id == null)
+            if (itemId == null || productId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ProductItem productItem = await db.ProductItems.FindAsync(id);
+            ProductItem productItem = await GetProductItem(itemId, productId);
             if (productItem == null)
             {
                 return HttpNotFound();
             }
-            return View(productItem);
+
+
+            return View(productItem.Convert(db));
         }
 
         // POST: Admin/ProductItem/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int itemId, int productId)
         {
-            ProductItem productItem = await db.ProductItems.FindAsync(id);
+            ProductItem productItem = await GetProductItem(itemId, productId);
             db.ProductItems.Remove(productItem);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -128,22 +133,22 @@ namespace Memberships.Areas.Admin.Controllers
 
         private async Task<ProductItem> GetProductItem(int? itemId, int? productId)
         {
-            try 
+            try
             {
                 int itmId = 0, prdId = 0;
-
                 int.TryParse(itemId.ToString(), out itmId);
-
                 int.TryParse(productId.ToString(), out prdId);
-
-                var productItem = await db.ProductItems.FirstOrDefaultAsync
-                    ( pi => pi.ProductId.Equals(prdId) && pi.ItemId.Equals(itmId));
+                var productItem = await db.ProductItems.FirstOrDefaultAsync(pi => pi.ProductId.Equals(prdId) && pi.ItemId.Equals(itmId));
 
                 return productItem;
             }
 
-            catch { return null;  }
+            catch
+            {
+                return null;
+            }
         }
+
 
         protected override void Dispose(bool disposing)
         {

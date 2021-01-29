@@ -25,18 +25,18 @@
 
     @foreach (var item in Model)
     {
-<tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.ProductTitle)
-        </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProductTitle)
+            </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.ItemTitle)
-        </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ItemTitle)
+            </td>
 
-        @Html.Partial("_TableButtonPartial", new SmallButtonModel { ItemId = item.ItemId, ProductId = item.ProductId })
+            @Html.Partial("_TableButtonPartial", new SmallButtonModel { ItemId = item.ItemId, ProductId = item.ProductId })
 
-</tr>
+        </tr>
     }
 
 </table>
