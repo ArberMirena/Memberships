@@ -13,6 +13,8 @@ namespace Memberships.Areas.Admin.Extensions
 {
     public static class ConversionsExtensions
     {
+        #region Product
+
         public static async Task<IEnumerable<ProductModel>> Convert(this IEnumerable<Product> products, ApplicationDbContext db)
         {
             if (products.Count().Equals(0)) return new List<ProductModel>();
@@ -57,6 +59,9 @@ namespace Memberships.Areas.Admin.Extensions
                           }).ToListAsync();
         }
 
+        #endregion
+
+        #region ProductItem
         public static async Task<ProductModel> Convert(this Product product, ApplicationDbContext db)
         {
 
@@ -148,5 +153,100 @@ namespace Memberships.Areas.Admin.Extensions
                 }
             }
         }
+
+        #endregion
+
+        #region SubscriptionProduct
+
+        public static async Task<IEnumerable<SubscriptionProductModel>> Convert(this IQueryable<SubscriptionProduct> subscriptionProducts, ApplicationDbContext db)
+        {
+            if (subscriptionProducts.Count().Equals(0)) return new List<SubscriptionProductModel>();
+
+            return await (from pi in subscriptionProducts
+                          select new SubscriptionProductModel
+                          {
+                              SubscriptionId = pi.SubscriptionId,
+
+                              ProductId = pi.ProductId,
+
+                              ProductTitle = db.Products.FirstOrDefault(
+                                  p => p.Id.Equals(pi.ProductId)).Title,
+
+                              SubscriptionTitle = db.Items.FirstOrDefault(
+                                  i => i.Id.Equals(pi.SubscriptionId)).Title,
+
+
+
+
+                          }).ToListAsync();
+        }
+
+        public static async Task<SubscriptionProductModel> Convert(this SubscriptionProduct subscriptionProducts, ApplicationDbContext db, bool addListData = true)
+        {
+
+            var model = new SubscriptionProductModel
+            {
+                SubscriptionId = subscriptionProducts.SubscriptionId,
+                ProductId = subscriptionProducts.ProductId,
+                Subscriptions = addListData ? await db.Subscriptions.ToListAsync() : null,
+                Products = addListData ? await db.Products.ToListAsync() : null,
+                SubscriptionTitle = (await db.Subscriptions.FirstOrDefaultAsync(s => s.Id.Equals(subscriptionProducts.SubscriptionId))).Title,
+                ProductTitle = (await db.Products.FirstOrDefaultAsync(p => p.Id.Equals(subscriptionProducts.ProductId))).Title,
+
+            };
+
+            return model;
+        }
+
+        public static async Task<bool> CanChange(this SubscriptionProduct subscriptionProducts, ApplicationDbContext db)
+        {
+            var oldSP = await db.SubscriptionProducts.CountAsync(
+                sp => sp.ProductId.Equals(subscriptionProducts.OldProductId) &&
+                sp.SubscriptionId.Equals(subscriptionProducts.OldSubscriptionId));
+
+            var newSP = await db.SubscriptionProducts.CountAsync(
+                sp => sp.ProductId.Equals(subscriptionProducts.ProductId) &&
+                sp.SubscriptionId.Equals(subscriptionProducts.SubscriptionId));
+
+            //oldPi.Equals(1) returns true if old value exists or viceversa 
+            return oldSP.Equals(1) && newSP.Equals(0);
+        }
+
+        public static async Task Change(this SubscriptionProduct subscriptionProducts, ApplicationDbContext db)
+        {
+            var oldSubscriptionProduct = await db.SubscriptionProducts.FirstOrDefaultAsync(
+                sp => sp.ProductId.Equals(subscriptionProducts.OldProductId) &&
+                sp.SubscriptionId.Equals(subscriptionProducts.OldSubscriptionId));
+
+            var newSubscriptionProduct = await db.SubscriptionProducts.FirstOrDefaultAsync(
+                sp => sp.ProductId.Equals(subscriptionProducts.ProductId) &&
+                sp.SubscriptionId.Equals(subscriptionProducts.SubscriptionId));
+
+            if (oldSubscriptionProduct != null && newSubscriptionProduct == null)
+            {
+                newSubscriptionProduct = new SubscriptionProduct
+                {
+                    SubscriptionId = subscriptionProducts.SubscriptionId,
+                    ProductId = subscriptionProducts.ProductId
+
+                };
+
+                using (var transaction = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+                {
+                    try
+                    {
+                        db.SubscriptionProducts.Remove(oldSubscriptionProduct);
+                        db.SubscriptionProducts.Add(newSubscriptionProduct);
+
+                        await db.SaveChangesAsync();
+                        transaction.Complete();
+                    }
+
+                    catch { transaction.Dispose(); }
+                }
+            }
+        }
+
+        #endregion
     }
 }

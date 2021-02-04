@@ -183,6 +183,7 @@
     <Compile Include="Areas\Admin\Controllers\SubscriptionProductController.cs" />
     <Compile Include="Areas\Admin\Extensions\ConversionsExtensions.cs" />
     <Compile Include="Areas\Admin\Models\EditButtonModel.cs" />
+    <Compile Include="Areas\Admin\Models\SubscriptionProductModel.cs" />
     <Compile Include="Areas\Admin\Models\ProductItemModel.cs" />
     <Compile Include="Areas\Admin\Models\ProductModel.cs" />
     <Compile Include="Areas\Admin\Models\SmallButtonModel.cs" />
