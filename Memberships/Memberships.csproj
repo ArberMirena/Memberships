@@ -284,10 +284,10 @@
     <Content Include="Areas\Admin\Views\ProductItem\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\ProductItem\Index.cshtml" />
     <Content Include="Areas\Admin\Views\SubscriptionProduct\Create.cshtml" />
-    <Content Include="Areas\Admin\Views\SubscriptionProduct\Delete.cshtml" />
-    <Content Include="Areas\Admin\Views\SubscriptionProduct\Details.cshtml" />
-    <Content Include="Areas\Admin\Views\SubscriptionProduct\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SubscriptionProduct\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\SubscriptionProduct\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\SubscriptionProduct\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\SubscriptionProduct\Delete.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

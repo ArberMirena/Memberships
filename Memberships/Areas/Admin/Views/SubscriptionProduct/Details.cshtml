@@ -1,4 +1,5 @@
-﻿@model Memberships.Entities.SubscriptionProduct
+﻿@model Memberships.Areas.Admin.Models.SubscriptionProductModel
+@using Memberships.Areas.Admin.Models
 
 @{
     ViewBag.Title = "Details";
@@ -7,12 +8,16 @@
 <h2>Details</h2>
 
 <div>
-    <h4>SubscriptionProduct</h4>
+    <h4>Subscription Product </h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(m => m.SubscriptionTitle)</dt>
+        <dd>@Html.DisplayFor(m => m.SubscriptionTitle)</dd>
+        <dt>@Html.DisplayNameFor(m => m.ProductTitle)</dt>
+        <dd>@Html.DisplayFor(m => m.ProductTitle)</dd>
     </dl>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.Partial("_EditButtonDetailPartial", new EditButtonModel { SubscriptionId = Model.SubscriptionId, ProductId = Model.ProductId })
+    @Html.Partial("_BackToListButtonPartial")
 </p>
