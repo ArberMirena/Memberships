@@ -1,4 +1,5 @@
-﻿<li class="dropdown" data-admin-menu>
+﻿@if (Request.IsAuthenticated && User.IsInRole("Admin")) {
+<li class="dropdown" data-admin-menu>
     <a href="#">
         Admin
         <span class="glyphicon glyphicon-chevron-down"></span>
@@ -23,7 +24,7 @@
         <li class="dropdown-header">Connector Entities</li>
         <li class="divider"></li>
         <li><a href="/Admin/ProductItem">Product Item</a></li>
-        <li><a href="#">Subsription Product</a></li>
+        <li><a href="/Admin/SubsriptionProduct">Subsription Product</a></li>
 
         <li class="divider"></li>
         <li class="dropdown-header">Users & Subscriptions </li>
@@ -34,4 +35,5 @@
 
     </ul>
 </li>
+}
 
