@@ -239,11 +239,11 @@
     <Content Include="Areas\Admin\Views\Section\Details.cshtml" />
     <Content Include="Areas\Admin\Views\Section\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Section\Index.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_BackToListButtonPartial.cshtml" />
+    <Content Include="Views\Shared\_BackToListButtonPartial.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_EditButtonPartial.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_CreateButtonPartial.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_SmallButtonPartial.cshtml" />
-    <Content Include="Areas\Admin\Views\Shared\_TableButtonPartial.cshtml" />
+    <Content Include="Views\Shared\_CreateButtonPartial.cshtml" />
+    <Content Include="Views\Shared\_SmallButtonPartial.cshtml" />
+    <Content Include="Views\Shared\_TableButtonPartial.cshtml" />
     <Content Include="Areas\Admin\Views\Part\Index.cshtml" />
     <Content Include="Areas\Admin\Views\Part\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Part\Details.cshtml" />
@@ -290,6 +290,7 @@
     <Content Include="Areas\Admin\Views\SubscriptionProduct\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\SubscriptionProduct\Details.cshtml" />
     <Content Include="Areas\Admin\Views\SubscriptionProduct\Delete.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\_BackToListButtonPartial.cshtml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />
@@ -337,6 +338,8 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_AdminMenuPartial.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Create.cshtml" />
+    <Content Include="Views\Account\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\Admin\Data\" />
